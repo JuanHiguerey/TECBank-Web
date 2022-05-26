@@ -13,7 +13,7 @@ export const Login = (props) => {
     return (
         <form onSubmit={onSubmitHandler}>
             <div>
-                <img src={logo} className='Login-logo' alt="logo"/><br/><br/>
+                <br/><br/><img src={logo} className='Login-logo' alt="logo"/><br/><br/>
                 <label>Usuario</label><br/>
                 <input 
                     type='text'
@@ -34,5 +34,3 @@ export const Login = (props) => {
     )
 
 }
-
-//export default Greet

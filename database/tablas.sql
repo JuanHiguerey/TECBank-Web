@@ -1,4 +1,5 @@
-create database tecbank_db;
+DROP DATABASE IF EXISTS tecbank_db;
+CREATE DATABASE tecbank_db;
 
 CREATE TABLE `tecbank_db`.`tipo_cita` (
   `idTipoCita` int NOT NULL AUTO_INCREMENT,
@@ -132,4 +133,5 @@ CREATE TABLE `tecbank_db`.`movimiento_cuenta` (
   CONSTRAINT `idTipoMovimientoFK` FOREIGN KEY (`idTipoMovimiento`) REFERENCES `tipo_movimiento` (`idTipoMovimiento`)
 );
 
-
+USE tecbank_db;
+INSERT INTO usuario(nombre, apellido, nombreUsuario, correo, password) VALUES("Jaime", "Solano", "ElProfe", "jaimess@itcr.ac.cr", "123");
