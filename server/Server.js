@@ -1,8 +1,10 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const bodyParser = require('body-parser');
 const user = require("./api/User");
 
+app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
@@ -16,7 +18,7 @@ app.get("/api/user/:username/:password", async (req, res) => {
         const username = rowsJson[0].nombreUsuario;
         const id = rowsJson[0].idUsuario;
         console.log("User " + username + " has logged in.");
-        res.status(200).json({"status": "success", "id:": id});
+        res.status(200).json({"status": "success", "userId": id});
     }
     catch (error) {
         console.error(error);
@@ -28,7 +30,7 @@ app.post("/api/user/:name/:lastname/:email/:username/:password", async (req, res
     try {
         const ids = await user.Create(req.params.name, req.params.lastname, req.params.email, req.params.username, req.params.password);
         console.log("User " + req.params.username + " has been registered.");
-        res.status(200).json({"status": "success", "id:": ids[0]});
+        res.status(200).json({"status": "success", "userId": ids[0]});
     }
     catch (error) {
         console.error(error);

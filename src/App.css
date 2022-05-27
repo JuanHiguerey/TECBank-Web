@@ -41,28 +41,58 @@
   to {
     transform: rotate(360deg);
   }
-}s
+}
+
+.button-back {
+  width: 160px;
+  height: 40px;
+  font-size: 18px;
+  background-color: #d03f3f;
+  border-radius: 12px;
+  float: right;
+  margin-right: 20px;
+  border: 0px;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+}
 
 img {
   padding-top: 15px;
 }
 
-label {
-  font-size: 38px;
+.label-login {
+  font-size: 32px;
   padding-right: 35px;
+  border-radius: 12px;
 }
 
-input {
+.input-login {
   font-size: 28px;
+  border-radius: 12px;
+  padding-left: 5px;
 }
 
-button {
+.button-login {
   width: 400px;
   height: 70px;
   font-size: 24px;
   background-color: #d03f3f;
+  border-radius: 12px;
+  border: 0px;
 }
 
 hr.solid {
   width: 600px;
+}
+
+.button-home {
+  width: 275px;
+  height: 90px;
+  font-size: 32px;
+  background-color: #f5efef;
+  border-radius: 12px;
+  border: 0px;
 }
