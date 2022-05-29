@@ -114,9 +114,12 @@ CREATE TABLE `tecbank_db`.`cita` (
   `dia` datetime NOT NULL,
   `hora` datetime NOT NULL,
   `idTipoCita` int NOT NULL,
+  `idUsuario` int NOT NULL,
   PRIMARY KEY (`idCita`),
   KEY `idTipoCita_idx` (`idTipoCita`),
-  CONSTRAINT `idTipoCita` FOREIGN KEY (`idTipoCita`) REFERENCES `tipo_cita` (`idTipoCita`)
+  KEY `idUsuario_idx` (`idUsuario`),
+  CONSTRAINT `idTipoCita` FOREIGN KEY (`idTipoCita`) REFERENCES `tipo_cita` (`idTipoCita`),
+  CONSTRAINT `idUsuarioCita` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`)
 );
 
 CREATE TABLE `tecbank_db`.`movimiento_cuenta` (
