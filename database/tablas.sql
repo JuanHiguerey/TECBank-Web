@@ -135,3 +135,5 @@ CREATE TABLE `tecbank_db`.`movimiento_cuenta` (
 
 USE tecbank_db;
 INSERT INTO usuario(nombre, apellido, nombreUsuario, correo, password) VALUES("Jaime", "Solano", "ElProfe", "jaimess@itcr.ac.cr", "123");
+
+SELECT * FROM usuario;

@@ -54,9 +54,16 @@
   border: 0px;
 }
 
-.flex-container {
+.flex-row {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
 }
 
 img {
@@ -95,4 +102,5 @@ hr.solid {
   background-color: #f5efef;
   border-radius: 12px;
   border: 0px;
+  margin-right: 25px;
 }

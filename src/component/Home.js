@@ -14,9 +14,11 @@ export const Home = (props) => {
         return (
             <div>
                 <br/><button className="button-back" onClick={onBack}>Salir</button><br/><br/>
-                <h1>Sample Text</h1>
-                <div className="flex-container">
-                    
+                <div className="flex-row">
+                    <button className="button-home">Trasnferencias</button>
+                    <button className="button-home">Historial</button>
+                    <button className="button-home">Pagos</button>
+                    <button className="button-home">Menu</button>
                 </div>
             </div>
         )
