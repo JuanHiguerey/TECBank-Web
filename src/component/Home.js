@@ -15,7 +15,7 @@ export const Home = (props) => {
             <div>
                 <br/><button className="button-back" onClick={onBack}>Salir</button><br/><br/>
                 <div className="flex-row">
-                    <button className="button-home">Trasnferencias</button>
+                    <button className="button-home">Transferencias</button>
                     <button className="button-home">Historial</button>
                     <button className="button-home">Pagos</button>
                     <button className="button-home">Menu</button>

@@ -111,8 +111,8 @@ CREATE TABLE `tecbank_db`.`servicio` (
 
 CREATE TABLE `tecbank_db`.`cita` (
   `idCita` int NOT NULL AUTO_INCREMENT,
-  `dia` datetime NOT NULL,
-  `hora` datetime NOT NULL,
+  `dia` date NOT NULL,
+  `hora` time NOT NULL,
   `idTipoCita` int NOT NULL,
   `idUsuario` int NOT NULL,
   PRIMARY KEY (`idCita`),
