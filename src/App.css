@@ -111,3 +111,13 @@ hr.solid {
   font-size: 32px;
   margin: auto;
 }
+
+.button-appointment {
+  width: 160px;
+  height: 40px;
+  font-size: 18px;
+  background-color: #d03f3f;
+  border-radius: 12px;
+  margin-right: 20px;
+  border: 0px;
+}

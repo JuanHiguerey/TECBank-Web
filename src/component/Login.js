@@ -17,8 +17,6 @@ export const Login = (props) => {
             const data = await response.json();
             if(data.status === "success") {
                 console.log(data);
-                console.log(data.status);
-                console.log(data.userId);
                 setUserId(data.userId);
             }
             else {

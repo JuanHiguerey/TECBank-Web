@@ -3,6 +3,7 @@ const app = express();
 const cors = require("cors");
 const bodyParser = require('body-parser');
 const user = require("./api/User");
+const cita = require("./api/Citas");
 
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -45,5 +46,45 @@ app.post("/api/user/:name/:lastname/:email/:username/:password", async (req, res
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////// Modulo Informativo /////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+app.get("/api/cita/:dia/:hora/:sucursal", async (req, res) =>{
+    try{
+        const rows = await cita.GetAppointment(req.params.dia, req.params.hora, req.params.sucursal);
+        const rowsJson = JSON.parse(JSON.stringify(rows));
+        res.status(200).json({"status": "success", "json": rowsJson})
+    }
+    catch (error){
+        console.error(error);
+        res.status(200).json({"status": "error"});
+    }
+});
+
+app.post("/api/cita/:id/:dia/:hora/:tipo/:sucursal", async (req, res) => {
+    try{
+        const appointment = await cita.ScheduleAppointment(req.params.id, req.params.dia, req.params.hora, req.params.tipo, req.params.sucursal)
+        res.status(200).json({"status": "success"});
+    }
+    catch(error){
+        console.error(error);
+        res.status(200).json({"status": "error"});
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.listen(1337, () => console.log("server is running on port 1337"));

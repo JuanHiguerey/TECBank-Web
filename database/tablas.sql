@@ -108,6 +108,11 @@ CREATE TABLE `tecbank_db`.`servicio` (
   CONSTRAINT `idUsuarioServicio` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`)
 );
 
+CREATE TABLE `tecbank_db`.`sucursales` (
+	`idSucursal` int NOT NULL AUTO_INCREMENT,
+    `nombre` varchar(45) NOT NULL,
+    PRIMARY KEY (`idSucursal`)
+);
 
 CREATE TABLE `tecbank_db`.`cita` (
   `idCita` int NOT NULL AUTO_INCREMENT,
@@ -115,11 +120,14 @@ CREATE TABLE `tecbank_db`.`cita` (
   `hora` time NOT NULL,
   `idTipoCita` int NOT NULL,
   `idUsuario` int NOT NULL,
+  `idSucursal` int NOT NULL,
   PRIMARY KEY (`idCita`),
   KEY `idTipoCita_idx` (`idTipoCita`),
   KEY `idUsuario_idx` (`idUsuario`),
+  KEY `idSucursal_idx` (`idSucursal`),
   CONSTRAINT `idTipoCita` FOREIGN KEY (`idTipoCita`) REFERENCES `tipo_cita` (`idTipoCita`),
-  CONSTRAINT `idUsuarioCita` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`)
+  CONSTRAINT `idUsuarioCita` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`),
+  CONSTRAINT `idSucursalCita` FOREIGN KEY (`idSucursal`) REFERENCES `sucursales` (`idSucursal`)
 );
 
 CREATE TABLE `tecbank_db`.`movimiento_cuenta` (
@@ -140,3 +148,16 @@ USE tecbank_db;
 INSERT INTO usuario(nombre, apellido, nombreUsuario, correo, password) VALUES("Jaime", "Solano", "ElProfe", "jaimess@itcr.ac.cr", "123");
 
 SELECT * FROM usuario;
+
+INSERT INTO tipo_cita (nombre) VALUES ("Firma Digital");
+INSERT INTO tipo_cita (nombre) VALUES ("Licencia de Conducir");
+INSERT INTO tipo_cita (nombre) VALUES ("Pasaporte");
+INSERT INTO tipo_cita (nombre) VALUES ("Espacio");
+
+INSERT INTO sucursales (nombre) VALUES ("San Jose Centro");
+INSERT INTO sucursales (nombre) VALUES ("Multiplaza del Este");
+INSERT INTO sucursales (nombre) VALUES ("Lincoln Plaza");
+INSERT INTO sucursales (nombre) VALUES ("Alajuela Centro");
+INSERT INTO sucursales (nombre) VALUES ("City Mall");
+INSERT INTO sucursales (nombre) VALUES ("Oxigeno");
+INSERT INTO sucursales (nombre) VALUES ("Paseo Metropoli");
