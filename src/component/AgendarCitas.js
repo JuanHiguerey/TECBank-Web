@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Home } from "./Home";
+import { Menu } from "./Menu";
 import React from 'react';
 import Select from 'react-select';
 
@@ -171,7 +171,7 @@ export const Citas = (props) => {
         )
     }
     else {
-        return (<Home userId={userId}/>)
+        return (<Menu userId={userId}/>)
     }
     
 }

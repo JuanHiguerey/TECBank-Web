@@ -1,15 +1,26 @@
 import { useState } from "react"
+import { Menu } from "./Menu";
+
 
 import { Login } from "./Login";
 
 export const Home = (props) => {
     const [goBack, setBack] = useState(false);
+    const [goMenu, setMenu] = useState(false);
 
     const onBack = (event) => {
         setBack(true);
     }
 
-    if(!goBack) {
+    const onMenu = (event) => {
+        setMenu(true);
+    }
+
+
+    if (goMenu){
+        return (<Menu userId={props.userId}/>)
+    }
+    else if(!goBack) {
         console.log("Logged in with userId " + props.userId);
         return (
             <div>
@@ -18,7 +29,7 @@ export const Home = (props) => {
                     <button className="button-home">Transferencias</button>
                     <button className="button-home">Historial</button>
                     <button className="button-home">Pagos</button>
-                    <button className="button-home">Menu</button>
+                    <button className="button-home" onClick={onMenu}>Menu</button>
                 </div>
             </div>
         )
