@@ -3,13 +3,12 @@ import { Home } from "./Home";
 import React from 'react';
 import Select from 'react-select';
 
-export const Citas = (props) => {
+export const CCitas = (props) => {
     const [goBack, setBack] = useState(false);
 
     const userId = props.userId;
     const [selectedDay, setDay] = useState(null);
     const [selectedTime, setTime] = useState(null);
-    const [selectedType, setType] = useState(0);
     const [selectedLocation, setLocation] = useState(0);
 
     //boton de volver
@@ -17,28 +16,28 @@ export const Citas = (props) => {
         setBack(true);
     }
 
-    //boton de solicitar una cita
+    //boton de cancelar una cita
     const onRequestAppointment = (event) => {
         event.preventDefault();
-        fetch(`http://localhost:1337/api/getCita/${selectedDay.value}/${selectedTime.value}/${selectedLocation.value}`)
+        fetch(`http://localhost:1337/api/getCitaU/${userId}/${selectedDay.value}/${selectedTime.value}/${selectedLocation.value}`)
         .then(async response => {
             const data = await response.json();
             if (data.status === "success"){
-                if (data.json.length === 0){
-                    fetch(`http://localhost:1337/api/agendarCita/${userId}/${selectedDay.value}/${selectedTime.value}/${selectedType.value}/${selectedLocation.value}`, {
+                if (data.json.length !== 0){
+                    fetch(`http://localhost:1337/api/cancelarCita/${userId}/${selectedDay.value}/${selectedTime.value}/${selectedLocation.value}`, {
                         method: 'POST'
                     })
                     .then(async response => {
                         const data = await response.json();
                         if (data.status === "success"){
-                            console.log("Se agendó su cita exitosamente");
+                            console.log("Su cita se canceló exitosamente");
                         }
                         else{
                             console.log("Se encontró un error");
                         }
                     })
                 } else{
-                    console.log("No hay espacio disponible a esa hora");
+                    console.log("Usted no tiene ninguna cita a esta hora");
                 }
             } else{
                 console.log("Se encontró un error");
@@ -114,13 +113,6 @@ export const Citas = (props) => {
         }
     }
 
-    //tipos de cita
-    var tipos = [];
-    tipos.push({value: 1, label: "Solicitar firma digital"});
-    tipos.push({value: 2, label: "Solicitud o renovación de licencias de conducir"});
-    tipos.push({value: 3, label: "Solicitud o renovación de pasaporte"});
-    tipos.push({value: 4, label: "Reserva de espacio"});
-
     //suscursales
     var suscursales = [];
     suscursales.push({value: 1, label: "San José Centro"});
@@ -153,12 +145,6 @@ export const Citas = (props) => {
                 className="select-appointment"
                 placeholder="Hora"/>
                 <br/>
-                <Select defaultValue={selectedType}
-                onChange={setType}
-                options={tipos}
-                className="select-appointment"
-                placeholder="Motivo"/>
-                <br/>
                 <Select defaultValue={selectedLocation}
                 onChange={setLocation}
                 options={suscursales}
@@ -166,7 +152,7 @@ export const Citas = (props) => {
                 placeholder="Sucursal"/>
                 <br/>
                 <br/>
-                <button className="button-appointment" onClick={onRequestAppointment}>Solicitar Cita</button>
+                <button className="button-appointment" onClick={onRequestAppointment}>Cancelar Cita</button>
             </div>
         )
     }

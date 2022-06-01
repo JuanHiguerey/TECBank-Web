@@ -47,11 +47,11 @@ app.post("/api/user/:name/:lastname/:email/:username/:password", async (req, res
 ///////////////////////////////////////////////////////////////////////////////////////////////// Modulo Informativo /////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-app.get("/api/cita/:dia/:hora/:sucursal", async (req, res) =>{
+app.get("/api/getCita/:dia/:hora/:sucursal", async (req, res) =>{
     try{
-        const rows = await cita.GetAppointment(req.params.dia, req.params.hora, req.params.sucursal);
-        const rowsJson = JSON.parse(JSON.stringify(rows));
-        res.status(200).json({"status": "success", "json": rowsJson})
+        const appointment = await cita.GetAppointment(req.params.dia, req.params.hora, req.params.sucursal);
+        const appointmentJson = JSON.parse(JSON.stringify(appointment));
+        res.status(200).json({"status": "success", "json": appointmentJson})
     }
     catch (error){
         console.error(error);
@@ -59,7 +59,7 @@ app.get("/api/cita/:dia/:hora/:sucursal", async (req, res) =>{
     }
 });
 
-app.post("/api/cita/:id/:dia/:hora/:tipo/:sucursal", async (req, res) => {
+app.post("/api/agendarCita/:id/:dia/:hora/:tipo/:sucursal", async (req, res) => {
     try{
         const appointment = await cita.ScheduleAppointment(req.params.id, req.params.dia, req.params.hora, req.params.tipo, req.params.sucursal)
         res.status(200).json({"status": "success"});
@@ -70,7 +70,39 @@ app.post("/api/cita/:id/:dia/:hora/:tipo/:sucursal", async (req, res) => {
     }
 })
 
+app.get("/api/getCitaU/:id/:dia/:hora/:sucursal", async (req, res) => {
+    try{
+        const appointment = await cita.GetUserAppointment(req.params.id, req.params.dia, req.params.hora, req.params.sucursal)
+        const appointmentJson = JSON.parse(JSON.stringify(appointment))
+        res.status(200).json({"status": "success", "json": appointmentJson});
+    }
+    catch(error){
+        console.error(error);
+        res.status(200).json({"status": "error"});
+    }
+})
 
+app.post("/api/modificarCita/:id/:dia/:hora/:nDia/:nHora/:sucursal", async (req, res) => {
+    try{
+        const appointment = await cita.ReScheduleAppointment(req.params.id, req.params.dia, req.params.hora, req.params.nDia, req.params.nHora, req.params.sucursal)
+        res.status(200).json({"status": "success"});
+    }
+    catch(error){
+        console.error(error);
+        res.status(200).json({"status": "error"});
+    }
+})
+
+app.post("/api/cancelarCita/:id/:dia/:hora/:sucursal", async (req, res) => {
+    try{
+        const appointment = await cita.CancelAppointment(req.params.id, req.params.dia, req.params.hora, req.params.sucursal)
+        res.status(200).json({"status": "success"});
+    }
+    catch(error){
+        console.error(error);
+        res.status(200).json({"status": "error"});
+    }
+})
 
 
 

@@ -3,42 +3,57 @@ import { Home } from "./Home";
 import React from 'react';
 import Select from 'react-select';
 
-export const Citas = (props) => {
+export const MCitas = (props) => {
     const [goBack, setBack] = useState(false);
 
     const userId = props.userId;
     const [selectedDay, setDay] = useState(null);
     const [selectedTime, setTime] = useState(null);
-    const [selectedType, setType] = useState(0);
     const [selectedLocation, setLocation] = useState(0);
+    const [selectedNDay, setNDay] = useState(null);
+    const [selectedNTime, setNTime] = useState(null);
 
     //boton de volver
     const onBack = (event) => {
         setBack(true);
     }
 
-    //boton de solicitar una cita
+    //boton de modificar una cita
     const onRequestAppointment = (event) => {
         event.preventDefault();
-        fetch(`http://localhost:1337/api/getCita/${selectedDay.value}/${selectedTime.value}/${selectedLocation.value}`)
+        fetch(`http://localhost:1337/api/getCitaU/${userId}/${selectedDay.value}/${selectedTime.value}/${selectedLocation.value}`)
         .then(async response => {
             const data = await response.json();
             if (data.status === "success"){
-                if (data.json.length === 0){
-                    fetch(`http://localhost:1337/api/agendarCita/${userId}/${selectedDay.value}/${selectedTime.value}/${selectedType.value}/${selectedLocation.value}`, {
-                        method: 'POST'
-                    })
+                if (data.json.length !== 0){
+                    
+                    fetch(`http://localhost:1337/api/getCita/${selectedNDay.value}/${selectedNTime.value}/${selectedLocation.value}`)
                     .then(async response => {
                         const data = await response.json();
                         if (data.status === "success"){
-                            console.log("Se agendó su cita exitosamente");
-                        }
-                        else{
+                            if (data.json.length === 0){
+                                fetch(`http://localhost:1337/api/modificarCita/${userId}/${selectedDay.value}/${selectedTime.value}/${selectedNDay.value}/${selectedNTime.value}/${selectedLocation.value}`, {
+                                    method: 'POST'
+                                })
+                                .then(async response => {
+                                    const data = await response.json();
+                                    if (data.status === "success"){
+                                        console.log("Se actualizó su cita exitosamente");
+                                    }
+                                    else{
+                                        console.log("Se encontró un error");
+                                    }
+                                })
+                            } else {
+                                console.log("Ya existe una cita a esta hora");
+                            }
+                        } else{
                             console.log("Se encontró un error");
                         }
+
                     })
                 } else{
-                    console.log("No hay espacio disponible a esa hora");
+                    console.log("El usuario no tiene ninguna cita agendada a esta hora");
                 }
             } else{
                 console.log("Se encontró un error");
@@ -114,13 +129,6 @@ export const Citas = (props) => {
         }
     }
 
-    //tipos de cita
-    var tipos = [];
-    tipos.push({value: 1, label: "Solicitar firma digital"});
-    tipos.push({value: 2, label: "Solicitud o renovación de licencias de conducir"});
-    tipos.push({value: 3, label: "Solicitud o renovación de pasaporte"});
-    tipos.push({value: 4, label: "Reserva de espacio"});
-
     //suscursales
     var suscursales = [];
     suscursales.push({value: 1, label: "San José Centro"});
@@ -153,20 +161,26 @@ export const Citas = (props) => {
                 className="select-appointment"
                 placeholder="Hora"/>
                 <br/>
-                <Select defaultValue={selectedType}
-                onChange={setType}
-                options={tipos}
-                className="select-appointment"
-                placeholder="Motivo"/>
-                <br/>
                 <Select defaultValue={selectedLocation}
                 onChange={setLocation}
                 options={suscursales}
                 className="select-appointment"
                 placeholder="Sucursal"/>
                 <br/>
+                <Select defaultValue={selectedNDay}
+                onChange={setNDay}
+                options={days}
+                className="select-appointment"
+                placeholder="Nueva Fecha"/>
                 <br/>
-                <button className="button-appointment" onClick={onRequestAppointment}>Solicitar Cita</button>
+                <Select defaultValue={selectedNTime}
+                onChange={setNTime}
+                options={horas}
+                className="select-appointment"
+                placeholder="Nueva Hora"/>
+                <br/>
+                <br/>
+                <button className="button-appointment" onClick={onRequestAppointment}>Modificar Cita</button>
             </div>
         )
     }
