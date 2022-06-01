@@ -24,7 +24,7 @@ export const Home = (props) => {
         console.log("Logged in with userId " + props.userId);
         return (
             <div>
-                <br/><button className="button-back" onClick={onBack}>Salir</button><br/><br/>
+                <br/><button className="button-back" onClick={onBack}>Salir</button><br/><br/><br/><br/>
                 <div className="flex-row">
                     <button className="button-home">Transferencias</button>
                     <button className="button-home">Historial</button>

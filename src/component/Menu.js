@@ -39,12 +39,17 @@ export const Menu = (props) => {
         console.log("Logged in with userId " + props.userId);
         return (
             <div>
-                <br/><button className="button-back" onClick={onBack}>Salir</button><br/><br/>
+                <br/><button className="button-back" onClick={onBack}>Salir</button><br/><br/><br/><br/>
                 <div className="flex-row">
                     <button className="button-home" onClick={onCitas}>Agendar una Cita</button>
                     <button className="button-home" onClick={onMCitas}>Modificar una Cita</button>
-                    <button className="button-home" onClick={onCCitas}>Realizar un Trámite</button>
-                    <button className="button-home">LLenar un reporte</button>
+                    <button className="button-home" onClick={onCCitas}>Cancelar una Cita</button>
+                </div>
+                <br/>
+                <br/>
+                <div className="flex-row">
+                    <button className="button-home">Realizar un Trámite</button>
+                    <button className="button-home">Llenar un reporte</button>
                     <button className="button-home">Ver Tipos de Cambio</button>
                     <button className="button-home">Cambiar Contraseña</button>
                 </div>
