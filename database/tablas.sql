@@ -148,6 +148,7 @@ USE tecbank_db;
 INSERT INTO usuario(nombre, apellido, nombreUsuario, correo, password) VALUES("Jaime", "Solano", "ElProfe", "jaimess@itcr.ac.cr", "123");
 
 SELECT * FROM usuario;
+SELECT * FROM cita;
 
 INSERT INTO tipo_cita (nombre) VALUES ("Firma Digital");
 INSERT INTO tipo_cita (nombre) VALUES ("Licencia de Conducir");

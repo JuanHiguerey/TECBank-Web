@@ -1,12 +1,13 @@
 import './App.css';
 import { Login } from './component/Login';
+import { Citas } from './component/AgendarCitas'
 
 function App() {
   return (
     <div className="App">
       <div className='App-header'/>
       <div className='App-body'>
-        <Login/>
+        <Citas userId={1}/>
       </div>
     </div>
   );

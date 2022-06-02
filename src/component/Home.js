@@ -5,12 +5,14 @@ import { Login } from "./Login";
 export const Home = (props) => {
     const [goBack, setBack] = useState(false);
 
+    const userId = props.userId;
+
     const onBack = (event) => {
         setBack(true);
     }
 
     if(!goBack) {
-        console.log("Logged in with userId " + props.userId);
+        console.log("Logged in with userId " + userId);
         return (
             <div>
                 <br/><button className="button-back" onClick={onBack}>Salir</button><br/><br/>
