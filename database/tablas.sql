@@ -14,13 +14,13 @@ CREATE TABLE `tecbank_db`.`tipo_movimiento` (
 );
 
 CREATE TABLE `tecbank_db`.`tipo_plan` (
-  `idTipoPlan` int NOT NULL,
+  `idTipoPlan` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   PRIMARY KEY (`idTipoPlan`)
 );
 
 CREATE TABLE `tecbank_db`.`tipo_servicio` (
-  `idTipoServicio` int NOT NULL,
+  `idTipoServicio` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   PRIMARY KEY (`idTipoServicio`)
 );
@@ -83,7 +83,7 @@ CREATE TABLE `tecbank_db`.`salida_pais` (
 
 
 CREATE TABLE `tecbank_db`.`plan_ahorro` (
-  `idPlanAhorro` int NOT NULL,
+  `idPlanAhorro` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `plazo` datetime NOT NULL,
   `montoFinal` int NOT NULL,
@@ -97,7 +97,7 @@ CREATE TABLE `tecbank_db`.`plan_ahorro` (
 
 
 CREATE TABLE `tecbank_db`.`servicio` (
-  `idServicio` int NOT NULL,
+  `idServicio` int NOT NULL AUTO_INCREMENT,
   `Monto` decimal(45,0) NOT NULL,
   `idTipoServicio` int NOT NULL,
   `idUsuario` int NOT NULL,
@@ -131,7 +131,7 @@ CREATE TABLE `tecbank_db`.`cita` (
 );
 
 CREATE TABLE `tecbank_db`.`movimiento_cuenta` (
-  `idMovimientosCuenta` int NOT NULL,
+  `idMovimientosCuenta` int NOT NULL AUTO_INCREMENT,
   `montoTransferido` decimal(45,0) NOT NULL,
   `fecha` datetime NOT NULL,
   `hora` datetime NOT NULL,
