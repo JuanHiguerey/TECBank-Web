@@ -19,7 +19,7 @@ export const countryList = [
 	"Baréin",
 	"Bangladesh",
 	"Barbados",
-	"Bégica",
+	"Bélgica",
 	"Belice",
 	"Benín",
 	"Bermudas",
