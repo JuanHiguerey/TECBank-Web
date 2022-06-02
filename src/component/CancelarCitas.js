@@ -11,6 +11,8 @@ export const CCitas = (props) => {
     const [selectedTime, setTime] = useState(null);
     const [selectedLocation, setLocation] = useState(0);
 
+
+    
     //boton de volver
     const onBack = (event) => {
         setBack(true);
@@ -19,11 +21,13 @@ export const CCitas = (props) => {
     //boton de cancelar una cita
     const onRequestAppointment = (event) => {
         event.preventDefault();
+        //buscar si el usuario tiene una cita en esa fecha y hora y en esa sucursal
         fetch(`http://localhost:1337/api/getCitaU/${userId}/${selectedDay.value}/${selectedTime.value}/${selectedLocation.value}`)
         .then(async response => {
             const data = await response.json();
             if (data.status === "success"){
                 if (data.json.length !== 0){
+                    //cancelar la cita
                     fetch(`http://localhost:1337/api/cancelarCita/${userId}/${selectedDay.value}/${selectedTime.value}/${selectedLocation.value}`, {
                         method: 'POST'
                     })

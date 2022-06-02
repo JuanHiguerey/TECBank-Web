@@ -12,6 +12,8 @@ export const Citas = (props) => {
     const [selectedType, setType] = useState(0);
     const [selectedLocation, setLocation] = useState(0);
 
+
+    
     //boton de volver
     const onBack = (event) => {
         setBack(true);
@@ -20,11 +22,13 @@ export const Citas = (props) => {
     //boton de solicitar una cita
     const onRequestAppointment = (event) => {
         event.preventDefault();
+        //buscar si ya hay una cita en esta fecha y hora y en esa sucursal
         fetch(`http://localhost:1337/api/getCita/${selectedDay.value}/${selectedTime.value}/${selectedLocation.value}`)
         .then(async response => {
             const data = await response.json();
             if (data.status === "success"){
                 if (data.json.length === 0){
+                    //agendar la cita
                     fetch(`http://localhost:1337/api/agendarCita/${userId}/${selectedDay.value}/${selectedTime.value}/${selectedType.value}/${selectedLocation.value}`, {
                         method: 'POST'
                     })

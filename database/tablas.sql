@@ -67,14 +67,14 @@ CREATE TABLE `tecbank_db`.`transferencia` (
 
 
 CREATE TABLE `tecbank_db`.`salida_pais` (
-  `idSalidaPais` int NOT NULL,
+  `idSalidaPais` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
-  `cedula` varchar(45) NOT NULL,
-  `telefono` varchar(45) NOT NULL,
+  `cedula` smallint NOT NULL,
+  `telefono` smallint NOT NULL,
   `correo` varchar(45) NOT NULL,
   `destino` varchar(45) NOT NULL,
-  `diaSalida` datetime NOT NULL,
-  `diaRegreso` datetime NOT NULL,
+  `diaSalida` date NOT NULL,
+  `diaRegreso` date NOT NULL,
   `idUsuario` int NOT NULL,
   PRIMARY KEY (`idSalidaPais`),
   KEY `idUsuarioFk_idx` (`idUsuario`),

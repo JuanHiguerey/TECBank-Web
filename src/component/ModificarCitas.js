@@ -13,6 +13,8 @@ export const MCitas = (props) => {
     const [selectedNDay, setNDay] = useState(null);
     const [selectedNTime, setNTime] = useState(null);
 
+
+    
     //boton de volver
     const onBack = (event) => {
         setBack(true);
@@ -21,17 +23,19 @@ export const MCitas = (props) => {
     //boton de modificar una cita
     const onRequestAppointment = (event) => {
         event.preventDefault();
+        //buscar si el usuario tiene una cita en esa fecha y hora y en esa sucursal
         fetch(`http://localhost:1337/api/getCitaU/${userId}/${selectedDay.value}/${selectedTime.value}/${selectedLocation.value}`)
         .then(async response => {
             const data = await response.json();
             if (data.status === "success"){
                 if (data.json.length !== 0){
-                    
+                    //buscar si hay una cita agendada en la sucursal en la nueva fecha y hora
                     fetch(`http://localhost:1337/api/getCita/${selectedNDay.value}/${selectedNTime.value}/${selectedLocation.value}`)
                     .then(async response => {
                         const data = await response.json();
                         if (data.status === "success"){
                             if (data.json.length === 0){
+                                //realizar la modificación
                                 fetch(`http://localhost:1337/api/modificarCita/${userId}/${selectedDay.value}/${selectedTime.value}/${selectedNDay.value}/${selectedNTime.value}/${selectedLocation.value}`, {
                                     method: 'POST'
                                 })

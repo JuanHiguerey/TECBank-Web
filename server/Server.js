@@ -4,6 +4,7 @@ const cors = require("cors");
 const bodyParser = require('body-parser');
 const user = require("./api/User");
 const cita = require("./api/Citas");
+const reportes = require("./api/ReportesSalida");
 
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -84,7 +85,7 @@ app.get("/api/getCitaU/:id/:dia/:hora/:sucursal", async (req, res) => {
 
 app.post("/api/modificarCita/:id/:dia/:hora/:nDia/:nHora/:sucursal", async (req, res) => {
     try{
-        const appointment = await cita.ReScheduleAppointment(req.params.id, req.params.dia, req.params.hora, req.params.nDia, req.params.nHora, req.params.sucursal)
+        await cita.ReScheduleAppointment(req.params.id, req.params.dia, req.params.hora, req.params.nDia, req.params.nHora, req.params.sucursal)
         res.status(200).json({"status": "success"});
     }
     catch(error){
@@ -95,7 +96,7 @@ app.post("/api/modificarCita/:id/:dia/:hora/:nDia/:nHora/:sucursal", async (req,
 
 app.post("/api/cancelarCita/:id/:dia/:hora/:sucursal", async (req, res) => {
     try{
-        const appointment = await cita.CancelAppointment(req.params.id, req.params.dia, req.params.hora, req.params.sucursal)
+        await cita.CancelAppointment(req.params.id, req.params.dia, req.params.hora, req.params.sucursal)
         res.status(200).json({"status": "success"});
     }
     catch(error){
@@ -104,6 +105,16 @@ app.post("/api/cancelarCita/:id/:dia/:hora/:sucursal", async (req, res) => {
     }
 })
 
+app.post("/api/reporteSalida/:id/:nombre/:cedula/:telefono/:correo/:destino/:salida/:regreso", async (req, res) =>{
+    try{
+        await reportes.newReport(req.params.id, req.params.nombre, req.params.cedula, req.params.telefono, req.params.correo, req.params.destino, req.params.salida, req.params.regreso)
+        res.status(200).json({"status": "success"});
+    }
+    catch(error){
+        console.error(error);
+        res.status(200).json({"status": "error"});
+    }
+})
 
 
 
