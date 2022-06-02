@@ -12,7 +12,7 @@ export const Reportes = (props) => {
     const [selectedCedula, setCedula] = useState(null);
     const [selectedPhoneNum, setPhoneNum] = useState(null);
     const [selectedEmail, setEmail] = useState(null);
-    const [selectedCountry, setCountry] = useState(null);
+    const [selectedCountries, setCountries] = useState(null);
     const [selectedExitDate, setExitDate] = useState(null);
     const [selectedReturnDate, setReturnDate] = useState(null);
 
@@ -28,7 +28,7 @@ export const Reportes = (props) => {
         event.preventDefault();
         //asegurarse que la fecha de regreso es después que la de salida
         if (compareDates(selectedExitDate.value, selectedReturnDate.value)){
-            fetch(`http://localhost:1337/api/reporteSalida/${userId}/${selectedName}/${selectedCedula}/${selectedPhoneNum}/${selectedEmail}/${selectedCountry.value}/${selectedExitDate.value}/${selectedReturnDate.value}`, {
+            fetch(`http://localhost:1337/api/reporteSalida/${userId}/${selectedName}/${selectedCedula}/${selectedPhoneNum}/${selectedEmail}/${countriesToStr(selectedCountries)}/${selectedExitDate.value}/${selectedReturnDate.value}`, {
                 method: 'POST'
             })
             .then(async response => {
@@ -130,11 +130,12 @@ export const Reportes = (props) => {
 
                 <div className="flex-row-report">
                 <label className="report-label">País</label><br/>
-                    <Select defaultValue={selectedCountry}
-                        onChange={setCountry}
+                    <Select defaultValue={selectedCountries}
+                        onChange={setCountries}
                         options={paises}
                         className="select-date-report"
                         placeholder=""
+                        isMulti={true}
                     /><br/><br/>
                 </div>
                 <br/>
@@ -243,4 +244,14 @@ function compareDates(f1, f2){
     let d1 = parseInt(getDay(f1))
     let d2 = parseInt(getDay(f2))
     return d1 <= d2
+}
+
+//funcion para pasar los países a un string
+function countriesToStr(countries){
+    let str = ""
+    let i = 0
+    for (; i < countries.length - 1; i++){
+        str = str + countries[i].value + ", "
+    }
+    return str + countries[i].value
 }

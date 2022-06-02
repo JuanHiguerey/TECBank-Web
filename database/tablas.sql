@@ -89,6 +89,7 @@ CREATE TABLE `tecbank_db`.`plan_ahorro` (
   `montoFinal` int NOT NULL,
   `idUsuario` int NOT NULL,
   `idTipoPlan` int NOT NULL,
+  PRIMARY KEY (`idPlanAhorro`),
   KEY `idUsuarioFk_idx` (`idUsuario`),
   KEY `idTipoPlan_idx` (`idTipoPlan`),
   CONSTRAINT `idTipoPlan` FOREIGN KEY (`idTipoPlan`) REFERENCES `tipo_plan` (`idTipoPlan`),
