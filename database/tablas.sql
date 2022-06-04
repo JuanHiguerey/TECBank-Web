@@ -173,3 +173,30 @@ INSERT INTO sucursales (nombre) VALUES ("Paseo Metropoli");
 
 INSERT INTO tipo_movimiento (nombre) VALUES ("Transferencia Interna");
 INSERT INTO tipo_movimiento (nombre) VALUES ("Transferencia Externa");
+
+insert into tipo_plan(nombre) values ("Corto Plazo");
+insert into tipo_plan(nombre) values ("Largo Plazo"); 
+
+drop table plan_ahorro;
+CREATE TABLE `plan_ahorro` (
+  `idPlanAhorro` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) NOT NULL,
+  `plazo` int NOT NULL,
+  `montoFinal` decimal(45,0) NOT NULL,
+  `idUsuario` int NOT NULL,
+  `idTipoPlan` int NOT NULL,
+  `fecha` date DEFAULT NULL,
+  PRIMARY KEY (`idPlanAhorro`),
+  KEY `idUsuarioFk_idx` (`idUsuario`),
+  KEY `idTipoPlan_idx` (`idTipoPlan`),
+  CONSTRAINT `idTipoPlan` FOREIGN KEY (`idTipoPlan`) REFERENCES `tipo_plan` (`idTipoPlan`),
+  CONSTRAINT `idUsuarioPlan` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`)
+);
+
+DELIMITER $$
+USE `tecbank_db`$$
+CREATE DEFINER = CURRENT_USER TRIGGER `tecbank_db`.`plan_ahorro_BEFORE_INSERT` BEFORE INSERT ON `plan_ahorro` FOR EACH ROW
+BEGIN
+	set new.fecha=date(date_add(now(), interval New.plazo Year));
+END$$
+DELIMITER ;
