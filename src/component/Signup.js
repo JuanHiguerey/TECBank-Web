@@ -44,7 +44,7 @@ export const Signup = (props) => {
     if(!goBack) {
         return (
             <div>
-                <br/><button className="button-back" onClick={onBack}>Salir</button><br/><br/>
+                <br/><button className="button-back" onClick={onBack}>Regresar</button><br/><br/>
                 <form onSubmit={onSubmitHandler}>
                     <label className="label-login">Nombre</label><br/>
                     <input

@@ -1,0 +1,72 @@
+import { useState } from "react"
+import { Home } from "./Home";
+import { Citas } from "./AgendarCitas";
+import { MCitas } from "./ModificarCitas";
+import { CCitas } from "./CancelarCitas";
+import { Reportes } from "./Reportes";
+
+export const Menu = (props) => {
+    const [goBack, setBack] = useState(false);
+    const [goCitas, setCitas] = useState(false);
+    const [goMCitas, setMCitas] = useState(false);
+    const [goCCitas, setCCitas] = useState(false);
+    const [goReportes, setReportes] = useState(false);
+
+    const onBack = (event) => {
+        setBack(true);
+    }
+
+    const onCitas = (event) => {
+        setCitas(true);
+    }
+
+    const onMCitas = (event) => {
+        setMCitas(true);
+    }
+
+    const onCCitas = (event) => {
+        setCCitas(true);
+    }
+
+    const onReportes = (event) => {
+        setReportes(true);
+    }
+
+    if (goCitas){
+        return (<Citas userId={props.userId}/>)
+    }
+    else if (goMCitas){
+        return (<MCitas userId={props.userId}/>)
+    }
+    else if (goCCitas){
+        return (<CCitas userId={props.userId}/>)
+    }
+    else if (goReportes){
+        return (<Reportes userId={props.userId}/>)
+    }
+    else if(!goBack) {
+        console.log("Logged in with userId " + props.userId);
+        return (
+            <div>
+                <br/><button className="button-back" onClick={onBack}>Salir</button><br/><br/><br/><br/>
+                <div className="flex-row">
+                    <button className="button-home" onClick={onCitas}>Agendar una Cita</button>
+                    <button className="button-home" onClick={onMCitas}>Modificar una Cita</button>
+                    <button className="button-home" onClick={onCCitas}>Cancelar una Cita</button>
+                </div>
+                <br/>
+                <br/>
+                <div className="flex-row">
+                    <button className="button-home">Invertir en un Plan de Ahorro</button>
+                    <button className="button-home" onClick={onReportes}>Llenar un reporte</button>
+                    <button className="button-home">Ver Tipos de Cambio</button>
+                    <button className="button-home">Cambiar Contraseña</button>
+                </div>
+            </div>
+        )
+    }
+    else {
+        return (<Home userId = {props.userId}/>)
+    }
+}
+

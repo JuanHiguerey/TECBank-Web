@@ -103,12 +103,13 @@ hr.solid {
   border-radius: 12px;
   border: 0px;
   margin-right: 25px;
+  margin-top: 30px;
 }
 
 .select-appointment{
-  width: 275px;
+  width: 500px;
   height: 50px;
-  font-size: 32px;
+  font-size: 28px;
   margin: auto;
 }
 
@@ -120,4 +121,86 @@ hr.solid {
   border-radius: 12px;
   margin-right: 20px;
   border: 0px;
+}
+
+.flex-row-report {
+  display: flex;
+  flex-direction: row;
+  padding-left: 75px;
+  
+}
+
+.report-label {
+  font-size: 32px;
+  padding-right: 35px;
+  border-radius: 12px;
+  width: 300px;
+}
+
+.report-label2 {
+  font-size: 32px;
+  padding-right: 35px;
+  padding-left: 35px;
+  border-radius: 12px;
+  width: 300px;
+}
+
+.long-input {
+  font-size: 28px;
+  border-radius: 12px;
+  padding-left: 5px;
+  width: 700px;
+}
+
+.short-input {
+  font-size: 28px;
+  border-radius: 12px;
+  padding-left: 5px;
+  width: 159.5px;
+}
+
+.select-date-report{
+  font-size: 28px;
+  border-radius: 12px;
+  width: 711px;
+}
+
+.select-date-report2{
+  font-size: 28px;
+  border-radius: 12px;
+  width: 170px;
+}
+
+.button-report {
+  width: 200px;
+  height: 40px;
+  font-size: 18px;
+  background-color: #d03f3f;
+  border-radius: 12px;
+  margin-right: 20px;
+  border: 0px;
+}
+
+.button-account {
+  width: 700px;
+  height: 80px;
+  font-size: 30px;
+  background-color: #f0eff5;
+  color: #1f3ad3;
+  border-radius: 12px;
+  border: 0px;
+  margin-right: 25px;
+  margin-left: 25px;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  text-align: left;
+  padding-left: 20px;
+}
+
+.label-account {
+  margin-right: 15px;
+  width: 300px;
+  font-size: 30px;
+  display: inline-block;
+  text-align: left;
 }

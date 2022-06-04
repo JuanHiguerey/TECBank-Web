@@ -14,13 +14,13 @@ CREATE TABLE `tecbank_db`.`tipo_movimiento` (
 );
 
 CREATE TABLE `tecbank_db`.`tipo_plan` (
-  `idTipoPlan` int NOT NULL,
+  `idTipoPlan` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   PRIMARY KEY (`idTipoPlan`)
 );
 
 CREATE TABLE `tecbank_db`.`tipo_servicio` (
-  `idTipoServicio` int NOT NULL,
+  `idTipoServicio` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   PRIMARY KEY (`idTipoServicio`)
 );
@@ -40,7 +40,7 @@ CREATE TABLE `tecbank_db`.`usuario` (
 CREATE TABLE `tecbank_db`.`cuenta` (
   `idCuenta` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
-  `saldo` decimal(45,0) NOT NULL,
+  `saldo` decimal(45, 0) NOT NULL,
   `IBAN` varchar(45) NOT NULL,
   `idUsuario` int NOT NULL,
   PRIMARY KEY (`idCuenta`),
@@ -53,10 +53,8 @@ CREATE TABLE `tecbank_db`.`transferencia` (
   `idTransferencia` int NOT NULL AUTO_INCREMENT,
   `cuentaOrigen` varchar(45) NOT NULL,
   `cuentaDestino` varchar(45) NOT NULL,
-  `monto` varchar(45) NOT NULL,
-  `comision` varchar(45) NOT NULL,
+  `monto` decimal(45, 0) NOT NULL,
   `fecha` datetime NOT NULL,
-  `hora` varchar(45) NOT NULL,
   `cedula` varchar(45) NOT NULL,
   `banco` varchar(45) NOT NULL,
   `idTipoMovimiento` int NOT NULL,
@@ -67,14 +65,14 @@ CREATE TABLE `tecbank_db`.`transferencia` (
 
 
 CREATE TABLE `tecbank_db`.`salida_pais` (
-  `idSalidaPais` int NOT NULL,
+  `idSalidaPais` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
-  `cedula` varchar(45) NOT NULL,
-  `telefono` varchar(45) NOT NULL,
+  `cedula` smallint NOT NULL,
+  `telefono` smallint NOT NULL,
   `correo` varchar(45) NOT NULL,
   `destino` varchar(45) NOT NULL,
-  `diaSalida` datetime NOT NULL,
-  `diaRegreso` datetime NOT NULL,
+  `diaSalida` date NOT NULL,
+  `diaRegreso` date NOT NULL,
   `idUsuario` int NOT NULL,
   PRIMARY KEY (`idSalidaPais`),
   KEY `idUsuarioFk_idx` (`idUsuario`),
@@ -83,12 +81,13 @@ CREATE TABLE `tecbank_db`.`salida_pais` (
 
 
 CREATE TABLE `tecbank_db`.`plan_ahorro` (
-  `idPlanAhorro` int NOT NULL,
+  `idPlanAhorro` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `plazo` datetime NOT NULL,
   `montoFinal` int NOT NULL,
   `idUsuario` int NOT NULL,
   `idTipoPlan` int NOT NULL,
+  PRIMARY KEY (`idPlanAhorro`),
   KEY `idUsuarioFk_idx` (`idUsuario`),
   KEY `idTipoPlan_idx` (`idTipoPlan`),
   CONSTRAINT `idTipoPlan` FOREIGN KEY (`idTipoPlan`) REFERENCES `tipo_plan` (`idTipoPlan`),
@@ -97,7 +96,7 @@ CREATE TABLE `tecbank_db`.`plan_ahorro` (
 
 
 CREATE TABLE `tecbank_db`.`servicio` (
-  `idServicio` int NOT NULL,
+  `idServicio` int NOT NULL AUTO_INCREMENT,
   `Monto` decimal(45,0) NOT NULL,
   `idTipoServicio` int NOT NULL,
   `idUsuario` int NOT NULL,
@@ -131,7 +130,7 @@ CREATE TABLE `tecbank_db`.`cita` (
 );
 
 CREATE TABLE `tecbank_db`.`movimiento_cuenta` (
-  `idMovimientosCuenta` int NOT NULL,
+  `idMovimientosCuenta` int NOT NULL AUTO_INCREMENT,
   `montoTransferido` decimal(45,0) NOT NULL,
   `fecha` datetime NOT NULL,
   `hora` datetime NOT NULL,
@@ -146,9 +145,18 @@ CREATE TABLE `tecbank_db`.`movimiento_cuenta` (
 
 USE tecbank_db;
 INSERT INTO usuario(nombre, apellido, nombreUsuario, correo, password) VALUES("Jaime", "Solano", "ElProfe", "jaimess@itcr.ac.cr", "123");
+INSERT INTO usuario(nombre, apellido, nombreUsuario, correo, password) VALUES("Juan", "Higuerey", "JuanH", "hhjuanandres@gmail.com", "123");
 
+INSERT INTO cuenta(nombre, saldo, IBAN, idUsuario) VALUES("Corriente", 1000000, "CR04758290", 1);
+INSERT INTO cuenta(nombre, saldo, IBAN, idUsuario) VALUES("Ahorros", 564000, "CR48027402", 1);
+INSERT INTO cuenta(nombre, saldo, IBAN, idUsuario) VALUES("Credito", 1265, "CR54368204", 1);
+INSERT INTO cuenta(nombre, saldo, IBAN, idUsuario) VALUES("Corriente", 31250, "CR75849700", 2);
+ 
 SELECT * FROM usuario;
 SELECT * FROM cita;
+SELECT * FROM salida_pais;
+SELECT * FROM cuenta;
+SELECT * FROM transferencia;
 
 INSERT INTO tipo_cita (nombre) VALUES ("Firma Digital");
 INSERT INTO tipo_cita (nombre) VALUES ("Licencia de Conducir");
@@ -162,3 +170,6 @@ INSERT INTO sucursales (nombre) VALUES ("Alajuela Centro");
 INSERT INTO sucursales (nombre) VALUES ("City Mall");
 INSERT INTO sucursales (nombre) VALUES ("Oxigeno");
 INSERT INTO sucursales (nombre) VALUES ("Paseo Metropoli");
+
+INSERT INTO tipo_movimiento (nombre) VALUES ("Transferencia Interna");
+INSERT INTO tipo_movimiento (nombre) VALUES ("Transferencia Externa");
