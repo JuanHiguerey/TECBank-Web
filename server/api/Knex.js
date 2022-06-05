@@ -5,7 +5,7 @@ const connectedKnex = knex({
     connection: {
     host : 'localhost',
     user : 'root',
-    password : 'mysql',
+    password : '123456789',
     database : 'tecbank_db'
   }
 });

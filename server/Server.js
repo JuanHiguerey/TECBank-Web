@@ -7,7 +7,8 @@ const cita = require("./api/Citas");
 const reportes = require("./api/ReportesSalida");
 const account = require("./api/Account");
 const transfer = require("./api/Transfer");
-
+const tipoCambio=require("./tipoCambio");
+const planAhorro=require("./api/PlanAhorro");
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -173,18 +174,34 @@ app.post("/api/reporteSalida/:id/:nombre/:cedula/:telefono/:correo/:destino/:sal
     }
 })
 
+//obtener la venta y compra del dolar
+app.get("/tipocambio", async (req, res) => {
+    //'tecbankcr@gmail.com', 'GM2TKNMO27'
+    const cambio= await tipoCambio.indicadoresEconomicosBCCR('tecbankcr@gmail.com', 'GM2TKNMO27');
+    res.json(cambio);
+});
 
+//-----------------------------Plan de Ahorro---------------------------------------
 
+//obtener la informacion del plan por el id del usuario
+app.get("/PlanAhorro/:id", async (req, res) => {
+    const {id} = req.params;
+    const plan=await planAhorro.Get(id);
+    res.json(plan);
+});
 
-
-
-
-
-
-
-
-
-
+//agregar un nuevo sobre de ahorro
+app.post("/PlanAhorro", async (req, res) => {
+    try{
+        const results = await planAhorro.Create(req.body);
+        res.status(200).json({id: results[0]});
+    }
+    catch(error){
+        console.error(error);
+        res.status(200).json({"status": "error"});
+    }
+    
+});
 
 
 app.listen(1337, () => console.log("server is running on port 1337"));

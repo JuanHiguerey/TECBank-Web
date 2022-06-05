@@ -4,6 +4,10 @@ import { Citas } from "./AgendarCitas";
 import { MCitas } from "./ModificarCitas";
 import { CCitas } from "./CancelarCitas";
 import { Reportes } from "./Reportes";
+import { ExchangeRates} from "./ExchangeRates";
+import { PlanAhorro} from "./PlanAhorro";
+import { VerPlanAhorro} from "./VerPlanAhorro";
+
 
 export const Menu = (props) => {
     const [goBack, setBack] = useState(false);
@@ -11,6 +15,9 @@ export const Menu = (props) => {
     const [goMCitas, setMCitas] = useState(false);
     const [goCCitas, setCCitas] = useState(false);
     const [goReportes, setReportes] = useState(false);
+    const [goExchangeRates, setExchangeRates]=useState(false);
+    const [goPlan, setPlan]=useState(false);
+    const [goVerPlan, setVerPlan]=useState(false);
 
     const onBack = (event) => {
         setBack(true);
@@ -31,6 +38,17 @@ export const Menu = (props) => {
     const onReportes = (event) => {
         setReportes(true);
     }
+    const onExchange=(event)=>{
+        setExchangeRates(true);
+    }
+
+    const onPlan=(event)=>{
+        setPlan(true);
+    }
+
+    const onVerPlan=(event)=>{
+        setVerPlan(true);
+    }
 
     if (goCitas){
         return (<Citas userId={props.userId}/>)
@@ -43,6 +61,15 @@ export const Menu = (props) => {
     }
     else if (goReportes){
         return (<Reportes userId={props.userId}/>)
+    }
+    else if(goExchangeRates){
+        return (<ExchangeRates userId={props.userId}/>)
+    }
+    else if(goPlan){
+        return (<PlanAhorro userId={props.userId}/>)
+    }
+    else if(goVerPlan){
+        return (<VerPlanAhorro userId={props.userId}/>)
     }
     else if(!goBack) {
         console.log("Logged in with userId " + props.userId);
@@ -57,10 +84,11 @@ export const Menu = (props) => {
                 <br/>
                 <br/>
                 <div className="flex-row">
-                    <button className="button-home">Invertir en un Plan de Ahorro</button>
+                    <button className="button-home" onClick={onPlan}>Invertir en un Plan de Ahorro</button>
                     <button className="button-home" onClick={onReportes}>Llenar un reporte</button>
-                    <button className="button-home">Ver Tipos de Cambio</button>
+                    <button className="button-home" onClick={onExchange}>Ver Tipos de Cambio</button>
                     <button className="button-home">Cambiar Contraseña</button>
+                    <button className="button-home" onClick={onVerPlan}>Ver mis Planes de Ahorro</button>
                 </div>
             </div>
         )
