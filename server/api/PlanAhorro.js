@@ -6,8 +6,8 @@ function Get(idUsuario) {
 
 
 //crear un Plan de ahorro
-function Create(PlanAhorro) {
-    return knex("plan_ahorro").insert(PlanAhorro);
+function Create(idUsuario, nombre ,idTipoPlan, plazo, montoFinal) {
+    return knex("plan_ahorro").insert({'idUsuario':idUsuario, 'nombre':nombre,'idTipoPlan':idTipoPlan, 'plazo':plazo,'montoFinal':montoFinal});
 };
 
 module.exports = {

@@ -65,7 +65,8 @@ export const PlanAhorro =(props) =>{
     const [monto, setMonto]=useState(0);
     const [plazo, setPlazo]=useState(PLAZOS_CORTO[0]);
     const [montoTotal, setMontoTotal]=useState(0);
-    
+    const [cuentas, setCuentas]=useState([]);
+
 
     //verificar y guardar los datos del plan de ahorro
     const guardar = async(event) => {
@@ -83,11 +84,15 @@ export const PlanAhorro =(props) =>{
             toast.error('Error! Debe ingresar un monto ', TOAST_PROPERTIES)
             return
         }
+        if(cuentas[0].fondo<=montoTotal){
+            toast.error('Error! No hay fondos suficientes ', TOAST_PROPERTIES)
+            return
+        }
         try {
             await axios.post(`http://localhost:1337/PlanAhorro`, {
-                idUsuario:userId, nombre:nombre ,idTipoPlan:tipo.value, plazo:plazo.value, montoFinal:montoTotal}
+                idUsuario:userId, nombre:nombre ,idTipoPlan:tipo.value, plazo:plazo.value, montoFinal:montoTotal, monto:monto, iban:cuentas[0].iban}
             )
-             toast.success('Plan de Ahorro creado exitosamente', TOAST_PROPERTIES)
+            toast.success('Plan de Ahorro creado exitosamente', TOAST_PROPERTIES)
         } catch (error) {
             toast.error('Error datos mal introducidos', TOAST_PROPERTIES)
         }
@@ -127,7 +132,19 @@ export const PlanAhorro =(props) =>{
             setMontoTotal("Ingresar monto mayor o igual a 500000")
         }
         
-      }, [monto, plazo])
+    }, [monto, plazo])
+
+    //obtener la cuenta con mas fondos
+    const obtenerCuentas= async()=>{
+        const response= await fetch(`http://localhost:1337/api/maxaccount/${userId}`)
+        const responseJSON=await response.json()
+        setCuentas(responseJSON)
+    }
+
+    
+    useEffect(()=>{
+        obtenerCuentas()
+    },[])
 
     if(!goBack) {
         return(
