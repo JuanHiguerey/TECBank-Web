@@ -72,7 +72,6 @@ export const Menu = (props) => {
         return (<VerPlanAhorro userId={props.userId}/>)
     }
     else if(!goBack) {
-        console.log("Logged in with userId " + props.userId);
         return (
             <div>
                 <br/><button className="button-back" onClick={onBack}>Salir</button><br/><br/><br/><br/>

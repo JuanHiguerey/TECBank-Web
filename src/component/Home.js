@@ -58,7 +58,6 @@ export const Home = (props) => {
         return <TransferLog userId={userId}/>
     }
     else if(!goBack) {
-
         return (
             <div>
                 <br/><button className="button-back" onClick={onBack}>Salir</button><br/><br/><br/><br/>
