@@ -142,6 +142,18 @@ app.post("/api/transfer/:source/:target/:amount/:ssn/:bank/:detail/:userId", asy
     }
 });
 
+//obtener la cuenta con mas dinero
+app.get("/api/maxaccount/:userId", async (req, res) => {
+    try {
+        const rows = await account.Max(req.params.userId);
+        res.status(200).json(rows);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(200).json({"status": "error"});
+    }
+});
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////// Modulo Informativo /////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -236,10 +248,12 @@ app.get("/PlanAhorro/:id", async (req, res) => {
     res.json(plan);
 });
 
-//agregar un nuevo sobre de ahorro
+//agregar un nuevo plan de ahorro
 app.post("/PlanAhorro", async (req, res) => {
     try{
-        const results = await planAhorro.Create(req.body);
+        const tar = await account.Update(req.body.iban, -(req.body.monto));
+        const results = await planAhorro.Create(req.body.idUsuario, req.body.nombre, req.body.idTipoPlan, req.body.plazo, req.body.montoFinal );
+        
         res.status(200).json({id: results[0]});
     }
     catch(error){
