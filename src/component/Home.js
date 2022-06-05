@@ -4,11 +4,13 @@ import { Menu } from "./Menu";
 import { Login } from "./Login";
 import { Account } from "./Account";
 import { Transfer } from "./Transfer";
+import { TransferLog } from "./TransferLog";
 
 export const Home = (props) => {
     const [goBack, setBack] = useState(false);
     const [goMenu, setMenu] = useState(false);
     const [goTransfer, setTransfer] = useState(false);
+    const [goTransferLog, setTransferLog] = useState(false);
     const [accounts, setAccounts] = useState([]);
 
     const userId = props.userId;
@@ -23,6 +25,10 @@ export const Home = (props) => {
 
     const onTransfer = (event) => {
         setTransfer(true);
+    }
+
+    const onTransferLog = (event) => {
+        setTransferLog(true);
     }
 
     useEffect(() => {
@@ -48,6 +54,9 @@ export const Home = (props) => {
     else if(goTransfer) {
         return (<Transfer userId={userId}/>)
     }
+    else if(goTransferLog) {
+        return <TransferLog userId={userId}/>
+    }
     else if(!goBack) {
 
         return (
@@ -60,7 +69,7 @@ export const Home = (props) => {
 
                 <div className="flex-row">
                     <button className="button-home" onClick={onTransfer} userId={userId}>Transferencias</button>
-                    <button className="button-home">Historial</button>
+                    <button className="button-home" onClick={onTransferLog}>Historial</button>
                     <button className="button-home">Pagos</button>
                     <button className="button-home" onClick={onMenu}>Menu</button>
                 </div>

@@ -58,7 +58,20 @@ app.get("/api/account/:userId", async (req, res) => {
     }
 });
 
-app.post("/api/transfer/:source/:target/:amount/:ssn/:bank/", async (req, res) => {
+app.get("/api/transfer/:userId", async (req, res) => {
+    try {
+        const rows = await transfer.Get(req.params.userId);
+        const rowsJson = JSON.parse(JSON.stringify(rows));
+        console.log(rowsJson);
+        res.status(200).json({"status": "success", "transfers": rowsJson});
+    }
+    catch (error) {
+        console.error(error);
+        res.status(200).json({"status": "error"});
+    }
+});
+
+app.post("/api/transfer/:source/:target/:amount/:ssn/:bank/:detail/:userId", async (req, res) => {
     try {
         const acc = await account.GetFromIBAN(req.params.source);
         const accJson = JSON.parse(JSON.stringify(acc));
@@ -68,13 +81,18 @@ app.post("/api/transfer/:source/:target/:amount/:ssn/:bank/", async (req, res) =
         }
         else {
             var transferType = 1;
+            var commission = 0;
             if(req.params.bank != "NONE") {
                 transferType = 2;
+                commission = 1000;
+                if(funds < req.params.amoun + commission) {
+                    res.status(200).json({"status": "error"});
+                }
             }
-            const src = await account.Update(req.params.source, -req.params.amount);
+            const src = await account.Update(req.params.source, -req.params.amount - commission);
             const tar = await account.Update(req.params.target, req.params.amount);
-            const ids = await transfer.Create(req.params.source, req.params.target, req.params.amount, req.params.ssn, req.params.bank, transferType);
-            res.status(200).json({"status": "success", "userId": ids[0]});
+            const ids = await transfer.Create(req.params.source, req.params.target, parseFloat(req.params.amount) + commission, req.params.ssn, req.params.bank, transferType, req.params.detail, req.params.userId);
+            res.status(200).json({"status": "success", "transferId": ids[0]});
         }
     }
     catch (error) {

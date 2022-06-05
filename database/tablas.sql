@@ -51,12 +51,14 @@ CREATE TABLE `tecbank_db`.`cuenta` (
 
 CREATE TABLE `tecbank_db`.`transferencia` (
   `idTransferencia` int NOT NULL AUTO_INCREMENT,
+  `idUsuario` int NOT NULL,
   `cuentaOrigen` varchar(45) NOT NULL,
   `cuentaDestino` varchar(45) NOT NULL,
   `monto` decimal(45, 0) NOT NULL,
   `fecha` datetime NOT NULL,
   `cedula` varchar(45) NOT NULL,
   `banco` varchar(45) NOT NULL,
+  `detalle` varchar(50) NOT NULL,
   `idTipoMovimiento` int NOT NULL,
   PRIMARY KEY (`idTransferencia`),
   KEY `idTipoMovimiento_idx` (`idTipoMovimiento`),
