@@ -1,8 +1,20 @@
 import logo from "../res/logo-tecbank.png"
 import { useState } from "react"
+import {toast } from 'react-toastify';
 
 import { Home } from "./Home"
 import { Signup } from "./Signup";
+
+//propiedades de la Toast   
+const TOAST_PROPERTIES={
+    position: "bottom-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+};
 
 export const Login = (props) => {
     const [username, setUsername] = useState('');
@@ -23,12 +35,12 @@ export const Login = (props) => {
             }
             else {
                 console.log("Usuario o contraseña invalida.");
+                toast.success('Usuario o password incorrecto.', TOAST_PROPERTIES);
             }
-            setUsername("");
-            setPassword("");
         })
         .catch(error => {
             console.error('There was an error!', error);
+            toast.error('No se pudo conectar con el servidor.', TOAST_PROPERTIES);
         });
     }
 

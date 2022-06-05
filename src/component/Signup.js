@@ -1,6 +1,18 @@
 import { useState } from "react"
+import {toast } from 'react-toastify';
 
 import { Login } from "./Login";
+
+//propiedades de la Toast   
+const TOAST_PROPERTIES={
+    position: "bottom-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+};
 
 export const Signup = (props) => {
     const [name, setName] = useState('');
@@ -26,18 +38,16 @@ export const Signup = (props) => {
                 console.log(data.status);
                 console.log(data.userId);
                 setBack(true);
+                toast.success('El usuario fue registrado exitosamente.', TOAST_PROPERTIES);
             }
             else {
                 console.log("No fue posible registrar al usuario.");
+                toast.error('No fue posible registrar al usuario.', TOAST_PROPERTIES);
             }
-            setName("");
-            setLastName("");
-            setEmail("");
-            setUsername("");
-            setPassword("");
         })
         .catch(error => {
             console.error('There was an error!', error);
+            toast.error('El formulario esta incompleto o hay datos duplicados', TOAST_PROPERTIES);
         });
     }
 

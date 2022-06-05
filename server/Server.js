@@ -70,6 +70,10 @@ app.get("/api/user/:username/:password", async (req, res) => {
 app.post("/api/user/:name/:lastname/:email/:username/:password", async (req, res) => {
     try {
         const ids = await user.Create(req.params.name, req.params.lastname, req.params.email, req.params.username, req.params.password);
+        let inicio = 1000000;
+        let fin = 99999999;
+        let aleatorio=inicio+Math.floor(Math.random()*fin);
+        const acc = await account.Create("Corriente", 500000, "CR" + aleatorio, ids[0]);
         console.log("User " + req.params.username + " has been registered.");
         res.status(200).json({"status": "success", "userId": ids[0]});
     }

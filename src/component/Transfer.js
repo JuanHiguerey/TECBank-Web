@@ -51,15 +51,16 @@ export const Transfer = (props) => {
                     setShowReceipt(true);
                 }
                 else {
-                    console.log("No fue posible realizar la transferencia.");
+                    toast.error('No fue posible realizar la transferencia.', TOAST_PROPERTIES);
                 }
             })
             .catch(error => {
                 console.error('There was an error!', error);
+                toast.error('Ha ocurrido un error.', TOAST_PROPERTIES);
             });
         }
         else {
-            toast.error('EL token introducido no coincide con el token generado', TOAST_PROPERTIES);
+            toast.error('El token introducido no coincide con el token generado', TOAST_PROPERTIES);
         }
     }
 
@@ -69,14 +70,16 @@ export const Transfer = (props) => {
             const data = await response.json();
             if(data.status === "success") {
                 setTokenServer(data.token);
-                console.log("El token se envio exitosamente");
+                toast.success('El token se envio exitosamente.', TOAST_PROPERTIES);
             }
             else {
                 console.log("No se pudo obtener un  token.");
+                toast.error('No se pudo obtener un  token.', TOAST_PROPERTIES);
             }
         })
         .catch(error => {
             console.error('There was an error!', error);
+            toast.error('Ha ocurrido un error.', TOAST_PROPERTIES);
         });
     }
 
