@@ -185,7 +185,7 @@ export const Reportes = (props) => {
         )
     }
     else {
-        return (<Menu userId={userId}/>)
+        return (<Menu userId={userId} email={props.email}/>)
     }
 }
 

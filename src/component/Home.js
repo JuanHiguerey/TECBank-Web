@@ -49,13 +49,13 @@ export const Home = (props) => {
     }, [userId]);
 
     if (goMenu) {
-        return (<Menu userId={props.userId}/>)
+        return (<Menu userId={props.userId} email={props.email}/>)
     }
     else if(goTransfer) {
-        return (<Transfer userId={userId}/>)
+        return (<Transfer userId={userId} email={props.email}/>)
     }
     else if(goTransferLog) {
-        return <TransferLog userId={userId}/>
+        return <TransferLog userId={userId} email={props.email}/>
     }
     else if(!goBack) {
         return (

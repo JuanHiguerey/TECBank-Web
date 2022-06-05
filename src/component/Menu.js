@@ -51,25 +51,25 @@ export const Menu = (props) => {
     }
 
     if (goCitas){
-        return (<Citas userId={props.userId}/>)
+        return (<Citas userId={props.userId} email={props.email}/>)
     }
     else if (goMCitas){
-        return (<MCitas userId={props.userId}/>)
+        return (<MCitas userId={props.userId} email={props.email}/>)
     }
     else if (goCCitas){
-        return (<CCitas userId={props.userId}/>)
+        return (<CCitas userId={props.userId} email={props.email}/>)
     }
     else if (goReportes){
-        return (<Reportes userId={props.userId}/>)
+        return (<Reportes userId={props.userId} email={props.email}/>)
     }
     else if(goExchangeRates){
-        return (<ExchangeRates userId={props.userId}/>)
+        return (<ExchangeRates userId={props.userId} email={props.email}/>)
     }
     else if(goPlan){
-        return (<PlanAhorro userId={props.userId}/>)
+        return (<PlanAhorro userId={props.userId} email={props.email}/>)
     }
     else if(goVerPlan){
-        return (<VerPlanAhorro userId={props.userId}/>)
+        return (<VerPlanAhorro userId={props.userId} email={props.email}/>)
     }
     else if(!goBack) {
         return (
@@ -93,7 +93,7 @@ export const Menu = (props) => {
         )
     }
     else {
-        return (<Home userId = {props.userId}/>)
+        return (<Home userId = {props.userId} email={props.email}/>)
     }
 }
 

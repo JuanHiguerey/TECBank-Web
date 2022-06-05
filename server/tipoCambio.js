@@ -7,11 +7,12 @@ var DOMParser = require('xmldom').DOMParser;
 //Fechas para realizar la consulta
 function indicadoresEconomicosBCCR(email, token, fechaInicio, fechaFinal) {
     try {//datos para llenar el formulario del BCCR web service y obtener los datos
+        const restaFecha = 2;
         var todayDate = new Date();
         var BCCRurl = 'https://gee.bccr.fi.cr/Indicadores/Suscripciones/WS/wsindicadoreseconomicos.asmx/ObtenerIndicadoresEconomicos';
         var payload = {
-            FechaInicio: fechaInicio ? fechaInicio : todayDate.getDate()-1+ "/" + (todayDate.getMonth() + 1) + "/" + todayDate.getFullYear(),
-            FechaFinal: fechaFinal ? fechaFinal : todayDate.getDate()-1 + "/" + (todayDate.getMonth() + 1) + "/" + todayDate.getFullYear(),
+            FechaInicio: fechaInicio ? fechaInicio : todayDate.getDate()-restaFecha+ "/" + (todayDate.getMonth() + 1) + "/" + todayDate.getFullYear(),
+            FechaFinal: fechaFinal ? fechaFinal : todayDate.getDate()-restaFecha + "/" + (todayDate.getMonth() + 1) + "/" + todayDate.getFullYear(),
             Nombre: 'N',
             SubNiveles: 'N',
             Indicador: 317,     // indicador de la compra del dolar

@@ -8,6 +8,7 @@ export const Login = (props) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [userId, setUserId] = useState(0);
+    const [email, setEmail] = useState("");
     const [signUp, setSignUp] = useState(false);
 
     const onSubmitHandler = (event) => {
@@ -18,6 +19,7 @@ export const Login = (props) => {
             if(data.status === "success") {
                 console.log(data);
                 setUserId(data.userId);
+                setEmail(data.email);
             }
             else {
                 console.log("Usuario o contraseña invalida.");
@@ -64,7 +66,7 @@ export const Login = (props) => {
         )
     }
     else {
-        return <Home userId={userId}/>
+        return <Home userId={userId} email={email}/>
     }
 }
 

@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const bodyParser = require('body-parser');
+const nodemailer = require("nodemailer");
+
 const user = require("./api/User");
 const cita = require("./api/Citas");
 const reportes = require("./api/ReportesSalida");
@@ -9,9 +11,42 @@ const account = require("./api/Account");
 const transfer = require("./api/Transfer");
 const tipoCambio=require("./tipoCambio");
 const planAhorro=require("./api/PlanAhorro");
+const token = require("./api/Token")
+
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////// Token de Seguridad /////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+app.get("/api/token/send/:email", async (req, res) => {
+    const transporter = nodemailer.createTransport({
+        service:'outlook',
+        auth: {
+          user: 'tecwebcr@outlook.com' , // correo
+          pass: 'password1<>', // password
+        },
+    });
+
+    var mailOptions = {
+        from: 'tecwebcr@outlook.com', // correo de envio
+        to: req.params.email,//correo destino
+        subject: 'Token de Seguridad', // Subject del correo
+        text: token.Get().toString(), // generar token random y el contenido del correo.
+    };
+
+    transporter.sendMail(mailOptions, (error, info)=>{
+        if(error) {
+            console.log(error);
+            res.status(200).json({status: "error"});//regresa el token para verificar
+        }
+        else {
+            res.status(200).json({status: "success", token: mailOptions.text });//regresa el token para verificar
+        }
+    }); 
+});
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////// Modulo de Inicio //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -22,8 +57,9 @@ app.get("/api/user/:username/:password", async (req, res) => {
         const rowsJson = JSON.parse(JSON.stringify(rows));
         const username = rowsJson[0].nombreUsuario;
         const id = rowsJson[0].idUsuario;
+        const email = rowsJson[0].correo;
         console.log("User " + username + " has logged in.");
-        res.status(200).json({"status": "success", "userId": id});
+        res.status(200).json({"status": "success", "userId": id, "email": email});
     }
     catch (error) {
         console.error(error);
@@ -50,7 +86,6 @@ app.get("/api/account/:userId", async (req, res) => {
     try {
         const rows = await account.Get(req.params.userId);
         const rowsJson = JSON.parse(JSON.stringify(rows));
-        console.log(rowsJson);
         res.status(200).json({"status": "success", "accounts": rowsJson});
     }
     catch (error) {
@@ -63,7 +98,6 @@ app.get("/api/transfer/:userId", async (req, res) => {
     try {
         const rows = await transfer.Get(req.params.userId);
         const rowsJson = JSON.parse(JSON.stringify(rows));
-        console.log(rowsJson);
         res.status(200).json({"status": "success", "transfers": rowsJson});
     }
     catch (error) {
@@ -85,7 +119,9 @@ app.post("/api/transfer/:source/:target/:amount/:ssn/:bank/:detail/:userId", asy
             var commission = 0;
             if(req.params.bank != "NONE") {
                 transferType = 2;
-                commission = 1000;
+                const cambio = await tipoCambio.indicadoresEconomicosBCCR('tecbankcr@gmail.com', 'GM2TKNMO27');
+                const dolar = cambio[0].Venta;
+                commission = 2 * dolar;
                 if(funds < req.params.amoun + commission) {
                     res.status(200).json({"status": "error"});
                 }
@@ -177,8 +213,14 @@ app.post("/api/reporteSalida/:id/:nombre/:cedula/:telefono/:correo/:destino/:sal
 //obtener la venta y compra del dolar
 app.get("/tipocambio", async (req, res) => {
     //'tecbankcr@gmail.com', 'GM2TKNMO27'
-    const cambio= await tipoCambio.indicadoresEconomicosBCCR('tecbankcr@gmail.com', 'GM2TKNMO27');
-    res.json(cambio);
+    try{
+        const cambio = await tipoCambio.indicadoresEconomicosBCCR('tecbankcr@gmail.com', 'GM2TKNMO27');
+        res.json(cambio);
+    }
+    catch(error){
+        console.error(error);
+        res.status(200).json({"status": "error"});
+    }
 });
 
 //-----------------------------Plan de Ahorro---------------------------------------

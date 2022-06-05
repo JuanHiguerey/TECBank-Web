@@ -45,7 +45,7 @@ export const TransferLog = (props) => {
 
     if(goBack) {
         return (
-            <Home userId={userId}/>
+            <Home userId={userId} email={props.email}/>
         )
     }
     else {

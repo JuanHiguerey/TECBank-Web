@@ -64,7 +64,7 @@ export const VerPlanAhorro = (props )=>{
         )
     }
     else {
-        return (<Menu userId={userId}/>)
+        return (<Menu userId={userId} email={props.email}/>)
     }
 
 }

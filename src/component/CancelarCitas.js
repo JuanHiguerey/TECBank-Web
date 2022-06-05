@@ -161,7 +161,7 @@ export const CCitas = (props) => {
         )
     }
     else {
-        return (<Menu userId={userId}/>)
+        return (<Menu userId={userId} email={props.email}/>)
     }
     
 }

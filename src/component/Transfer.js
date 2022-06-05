@@ -1,6 +1,18 @@
 import { useState } from "react"
+import {toast } from 'react-toastify';
 
 import { Home } from "./Home";
+
+//propiedades de la Toast   
+const TOAST_PROPERTIES={
+    position: "bottom-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+};
 
 export const Transfer = (props) => {
     const [goBack, setBack] = useState(false);
@@ -12,8 +24,11 @@ export const Transfer = (props) => {
     const [bank, setBank] = useState('');
     const [detail, setDetail] = useState('');
     const [transerId, setTransferId] = useState('');
+    const [tokenClient, setTokenClient] = useState("");
+    const [tokenServer, setTokenServer] = useState(-1);
 
     const userId = props.userId;
+    const email = props.email;
 
     const onBack = (event) => {
         setBack(true);
@@ -25,17 +40,39 @@ export const Transfer = (props) => {
         if(bankStr === '') {
             bankStr = "NONE";
         }
-        fetch(`http://localhost:1337/api/transfer/${source}/${target}/${amount}/${ssn}/${bankStr}/${detail}/${userId}`, {
-            method: 'POST'
-        })
+        if(tokenServer === tokenClient && tokenServer !== -1) {
+            fetch(`http://localhost:1337/api/transfer/${source}/${target}/${amount}/${ssn}/${bankStr}/${detail}/${userId}`, {
+                method: 'POST'
+            })
+            .then(async response => {
+                const data = await response.json();
+                if(data.status === "success") {
+                    setTransferId(data.transferId);
+                    setShowReceipt(true);
+                }
+                else {
+                    console.log("No fue posible realizar la transferencia.");
+                }
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+            });
+        }
+        else {
+            toast.error('EL token introducido no coincide con el token generado', TOAST_PROPERTIES);
+        }
+    }
+
+    const onGetToken = (event) => {
+        fetch(`http://localhost:1337/api/token/send/${email}`)
         .then(async response => {
             const data = await response.json();
             if(data.status === "success") {
-                setTransferId(data.transferId);
-                setShowReceipt(true);
+                setTokenServer(data.token);
+                console.log("El token se envio exitosamente");
             }
             else {
-                console.log("No fue posible realizar la transferencia.");
+                console.log("No se pudo obtener un  token.");
             }
         })
         .catch(error => {
@@ -45,7 +82,7 @@ export const Transfer = (props) => {
 
     if(goBack) {
         return (
-            <Home userId={userId}/>
+            <Home userId={userId} email={props.email}/>
         )
     }
     else if(showReceipt) {
@@ -112,6 +149,14 @@ export const Transfer = (props) => {
                         value={detail}
                         onChange={(event) => setDetail(event.target.value)}
                     /><br/><br/><br/>
+                    <label className="label-login">Token</label><br/>
+                     <input
+                        className="input-login"
+                        type='text'
+                        value={tokenClient}
+                        onChange={(event) => setTokenClient(event.target.value)}
+                    /><br/><br/><br/>
+                    <button className="button-login" type="button" onClick={onGetToken}>Generar Token</button><br/><br/><br/>
                     <button className="button-login" type="submit">Confirmar</button><br/><br/>
                 </form>
             </div>

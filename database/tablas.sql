@@ -146,8 +146,8 @@ CREATE TABLE `tecbank_db`.`movimiento_cuenta` (
 );
 
 USE tecbank_db;
-INSERT INTO usuario(nombre, apellido, nombreUsuario, correo, password) VALUES("Jaime", "Solano", "ElProfe", "jaimess@itcr.ac.cr", "123");
-INSERT INTO usuario(nombre, apellido, nombreUsuario, correo, password) VALUES("Juan", "Higuerey", "JuanH", "hhjuanandres@gmail.com", "123");
+INSERT INTO usuario(nombre, apellido, nombreUsuario, correo, password) VALUES("Jaime", "Solano", "ElProfe", "profe12345@itcr.ac.cr", "123");
+INSERT INTO usuario(nombre, apellido, nombreUsuario, correo, password) VALUES("Juan", "Higuerey", "JuanH", "hhjuanandres@hotmail.com", "123");
 
 INSERT INTO cuenta(nombre, saldo, IBAN, idUsuario) VALUES("Corriente", 1000000, "CR04758290", 1);
 INSERT INTO cuenta(nombre, saldo, IBAN, idUsuario) VALUES("Ahorros", 564000, "CR48027402", 1);
