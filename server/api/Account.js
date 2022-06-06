@@ -25,9 +25,6 @@ module.exports = {
     Get,
     GetFromIBAN,
     Update,
-<<<<<<< HEAD
-    Create
-=======
+    Create,
     Max
->>>>>>> 85b23bf5ce74c580c3d47dabd5a3052c768560f7
 };

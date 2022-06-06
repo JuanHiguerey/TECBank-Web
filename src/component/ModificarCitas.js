@@ -2,6 +2,19 @@ import { useState } from "react"
 import { Menu } from "./Menu";
 import React from 'react';
 import Select from 'react-select';
+import {toast } from 'react-toastify';
+
+
+//propiedades de la Toast   
+const TOAST_PROPERTIES={
+    position: "bottom-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    };
 
 export const MCitas = (props) => {
     const [goBack, setBack] = useState(false);
@@ -14,7 +27,6 @@ export const MCitas = (props) => {
     const [selectedNTime, setNTime] = useState(null);
 
 
-    
     //boton de volver
     const onBack = (event) => {
         setBack(true);
@@ -23,6 +35,11 @@ export const MCitas = (props) => {
     //boton de modificar una cita
     const onRequestAppointment = (event) => {
         event.preventDefault();
+        //verificar que los espacios no esten en blanco
+        if(selectedDay===null||selectedTime===null||selectedLocation===0||selectedNDay===null||selectedNTime===null){
+            toast.error('Debe rellenar todos los espacios', TOAST_PROPERTIES);
+            return;
+        }
         //buscar si el usuario tiene una cita en esa fecha y hora y en esa sucursal
         fetch(`http://localhost:1337/api/getCitaU/${userId}/${selectedDay.value}/${selectedTime.value}/${selectedLocation.value}`)
         .then(async response => {
@@ -42,28 +59,35 @@ export const MCitas = (props) => {
                                 .then(async response => {
                                     const data = await response.json();
                                     if (data.status === "success"){
+                                        toast.success('Se actualizó su cita exitosamente', TOAST_PROPERTIES)
                                         console.log("Se actualizó su cita exitosamente");
                                     }
                                     else{
                                         console.log("Se encontró un error");
+                                        toast.error('Se encontró un error', TOAST_PROPERTIES);
                                     }
                                 })
                             } else {
+                                toast.error('Ya existe una cita a esta hora', TOAST_PROPERTIES)
                                 console.log("Ya existe una cita a esta hora");
                             }
                         } else{
+                            toast.error('Ya existe una cita a esta hora', TOAST_PROPERTIES)
                             console.log("Se encontró un error");
                         }
 
                     })
                 } else{
+                    toast.error('No tiene ninguna cita agendada a esta hora', TOAST_PROPERTIES)
                     console.log("El usuario no tiene ninguna cita agendada a esta hora");
                 }
             } else{
+                toast.error('Se encontró un error', TOAST_PROPERTIES)
                 console.log("Se encontró un error");
             }
         })
         .catch(error => {
+            toast.error('Se encontró un error', TOAST_PROPERTIES)
             console.error('There was an error!', error);
         });
     }

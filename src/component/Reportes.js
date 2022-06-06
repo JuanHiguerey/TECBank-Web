@@ -3,6 +3,18 @@ import React from 'react';
 import { Menu } from "./Menu";
 import Select from 'react-select';
 import {countryList, value_label} from '../misc/paises';
+import {toast } from 'react-toastify';
+
+//propiedades de la Toast   
+const TOAST_PROPERTIES={
+    position: "bottom-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+};
 
 export const Reportes = (props) => {
     const [goBack, setBack] = useState(false);
@@ -15,7 +27,7 @@ export const Reportes = (props) => {
     const [selectedCountries, setCountries] = useState(null);
     const [selectedExitDate, setExitDate] = useState(null);
     const [selectedReturnDate, setReturnDate] = useState(null);
-
+    
     
 
     //boton de volver
@@ -26,6 +38,11 @@ export const Reportes = (props) => {
     //boton de submit
     const onSubmitReport = (event) => {
         event.preventDefault();
+        //revisar que todos los espacios esten rellenos
+        if(selectedName===null||selectedCedula===null||selectedPhoneNum===null||selectedEmail===null||selectedCountries===null||selectedExitDate===null||selectedReturnDate===null){
+            toast.error('Debe rellenar todos los espacios', TOAST_PROPERTIES)
+            return;
+        }
         //asegurarse que la fecha de regreso es después que la de salida
         if (compareDates(selectedExitDate.value, selectedReturnDate.value)){
             fetch(`http://localhost:1337/api/reporteSalida/${userId}/${selectedName}/${selectedCedula}/${selectedPhoneNum}/${selectedEmail}/${countriesToStr(selectedCountries)}/${selectedExitDate.value}/${selectedReturnDate.value}`, {
@@ -35,13 +52,16 @@ export const Reportes = (props) => {
                 const data = await response.json();
                 if (data.status === "success"){
                     console.log("Se generó el reporte exitosamente");
+                    toast.success('Se generó el reporte exitosamente', TOAST_PROPERTIES)
                 } else{
                     console.log("Se encontró un error");
+                    toast.error('Se encontró un error', TOAST_PROPERTIES);
                 }
             })
         }
         else{
             console.log("La fecha de regreso debe ser después de la fecha de salida")
+            toast.error("La fecha de regreso debe ser después de la fecha de salida", TOAST_PROPERTIES);
         }
     }
 

@@ -2,6 +2,18 @@ import { useState } from "react"
 import { Menu } from "./Menu";
 import React from 'react';
 import Select from 'react-select';
+import {toast } from 'react-toastify';
+
+//propiedades de la Toast   
+const TOAST_PROPERTIES={
+    position: "bottom-right",
+    autoClose: 4000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    };
 
 export const Citas = (props) => {
     const [goBack, setBack] = useState(false);
@@ -22,6 +34,11 @@ export const Citas = (props) => {
     //boton de solicitar una cita
     const onRequestAppointment = (event) => {
         event.preventDefault();
+
+        if(selectedDay===null||selectedTime===null||selectedType===0||selectedDay===null||selectedLocation===0){
+            toast.error('Rellene todos los espacios', TOAST_PROPERTIES);
+            return;
+        }
         //buscar si ya hay una cita en esta fecha y hora y en esa sucursal
         fetch(`http://localhost:1337/api/getCita/${selectedDay.value}/${selectedTime.value}/${selectedLocation.value}`)
         .then(async response => {
@@ -36,15 +53,19 @@ export const Citas = (props) => {
                         const data = await response.json();
                         if (data.status === "success"){
                             console.log("Se agendó su cita exitosamente");
+                            toast.success('Cita creada exitosamente', TOAST_PROPERTIES)
                         }
                         else{
+                            toast.error('Se encontró un error', TOAST_PROPERTIES)
                             console.log("Se encontró un error");
                         }
                     })
                 } else{
-                    console.log("No hay espacio disponible a esa hora");
+                    console.log("No hay espacio disponible a esa hora"); 
+                    toast.error('No hay espacio disponible a esa hora', TOAST_PROPERTIES)
                 }
             } else{
+                
                 console.log("Se encontró un error");
             }
         })

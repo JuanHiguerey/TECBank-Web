@@ -35,7 +35,7 @@ export const Login = (props) => {
             }
             else {
                 console.log("Usuario o contraseña invalida.");
-                toast.success('Usuario o password incorrecto.', TOAST_PROPERTIES);
+                toast.error('Usuario o password incorrecto.', TOAST_PROPERTIES);
             }
         })
         .catch(error => {

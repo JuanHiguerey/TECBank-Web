@@ -2,6 +2,18 @@ import { useState } from "react"
 import { Menu } from "./Menu";
 import React from 'react';
 import Select from 'react-select';
+import {toast } from 'react-toastify';
+
+//propiedades de la Toast   
+const TOAST_PROPERTIES={
+    position: "bottom-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+};
 
 export const CCitas = (props) => {
     const [goBack, setBack] = useState(false);
@@ -11,8 +23,6 @@ export const CCitas = (props) => {
     const [selectedTime, setTime] = useState(null);
     const [selectedLocation, setLocation] = useState(0);
 
-
-    
     //boton de volver
     const onBack = (event) => {
         setBack(true);
@@ -21,6 +31,10 @@ export const CCitas = (props) => {
     //boton de cancelar una cita
     const onRequestAppointment = (event) => {
         event.preventDefault();
+        if(selectedDay===null||selectedTime===null||selectedLocation===0){
+            toast.error('Rellene todos los espacios', TOAST_PROPERTIES);
+            return;
+        }
         //buscar si el usuario tiene una cita en esa fecha y hora y en esa sucursal
         fetch(`http://localhost:1337/api/getCitaU/${userId}/${selectedDay.value}/${selectedTime.value}/${selectedLocation.value}`)
         .then(async response => {
@@ -34,21 +48,26 @@ export const CCitas = (props) => {
                     .then(async response => {
                         const data = await response.json();
                         if (data.status === "success"){
+                            toast.success('Su cita se canceló exitosamente', TOAST_PROPERTIES)
                             console.log("Su cita se canceló exitosamente");
                         }
                         else{
+                            toast.error('Se encontró un error', TOAST_PROPERTIES)
                             console.log("Se encontró un error");
                         }
                     })
                 } else{
+                    toast.error('Usted no tiene ninguna cita a esta hora', TOAST_PROPERTIES)
                     console.log("Usted no tiene ninguna cita a esta hora");
                 }
             } else{
                 console.log("Se encontró un error");
+                toast.error('Se encontró un error', TOAST_PROPERTIES)
             }
         })
         .catch(error => {
             console.error('There was an error!', error);
+            toast.error('Se encontró un error', TOAST_PROPERTIES);
         });
     }
 

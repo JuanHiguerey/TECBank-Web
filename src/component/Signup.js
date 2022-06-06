@@ -73,7 +73,7 @@ export const Signup = (props) => {
                     <label className="label-login">Correo</label><br/>
                     <input
                         className="input-login"
-                        type='text'
+                        type='email'
                         value={email}
                         onChange={(event) => setEmail(event.target.value)}
                     /><br/><br/>

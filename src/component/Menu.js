@@ -7,6 +7,8 @@ import { Reportes } from "./Reportes";
 import { ExchangeRates} from "./ExchangeRates";
 import { PlanAhorro} from "./PlanAhorro";
 import { VerPlanAhorro} from "./VerPlanAhorro";
+import { ChangePassword} from "./ChangePassword";
+
 
 
 export const Menu = (props) => {
@@ -18,6 +20,7 @@ export const Menu = (props) => {
     const [goExchangeRates, setExchangeRates]=useState(false);
     const [goPlan, setPlan]=useState(false);
     const [goVerPlan, setVerPlan]=useState(false);
+    const [goCPassword, setCPassword]=useState(false);
 
     const onBack = (event) => {
         setBack(true);
@@ -49,6 +52,9 @@ export const Menu = (props) => {
     const onVerPlan=(event)=>{
         setVerPlan(true);
     }
+    const onCPassword=(event)=>{
+        setCPassword(true);
+    }
 
     if (goCitas){
         return (<Citas userId={props.userId} email={props.email}/>)
@@ -71,6 +77,9 @@ export const Menu = (props) => {
     else if(goVerPlan){
         return (<VerPlanAhorro userId={props.userId} email={props.email}/>)
     }
+    else if(goCPassword){
+        return (<ChangePassword userId={props.userId} email={props.email}/>)
+    }
     else if(!goBack) {
         return (
             <div>
@@ -86,7 +95,7 @@ export const Menu = (props) => {
                     <button className="button-home" onClick={onPlan}>Invertir en un Plan de Ahorro</button>
                     <button className="button-home" onClick={onReportes}>Llenar un reporte</button>
                     <button className="button-home" onClick={onExchange}>Ver Tipos de Cambio</button>
-                    <button className="button-home">Cambiar Contraseña</button>
+                    <button className="button-home" onClick={onCPassword}>Cambiar Contraseña</button>
                     <button className="button-home" onClick={onVerPlan}>Ver mis Planes de Ahorro</button>
                 </div>
             </div>

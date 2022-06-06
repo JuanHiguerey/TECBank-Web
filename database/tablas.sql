@@ -69,8 +69,8 @@ CREATE TABLE `tecbank_db`.`transferencia` (
 CREATE TABLE `tecbank_db`.`salida_pais` (
   `idSalidaPais` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
-  `cedula` smallint NOT NULL,
-  `telefono` smallint NOT NULL,
+  `cedula` varchar(45) NOT NULL,
+  `telefono` varchar(45) NOT NULL,
   `correo` varchar(45) NOT NULL,
   `destino` varchar(45) NOT NULL,
   `diaSalida` date NOT NULL,
@@ -202,3 +202,5 @@ BEGIN
 	set new.fecha=date(date_add(now(), interval New.plazo Year));
 END$$
 DELIMITER ;
+
+select * from usuario;

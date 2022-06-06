@@ -53,6 +53,7 @@ const getTasas=(annosTasa)=>{
 
 export const PlanAhorro =(props) =>{
 
+    //regresar al menu
     const [goBack, setBack] = useState(false);
     const onBack = (event) => {
         setBack(true);
@@ -71,7 +72,6 @@ export const PlanAhorro =(props) =>{
     //verificar y guardar los datos del plan de ahorro
     const guardar = async(event) => {
         event.preventDefault();
-        console.log(tipo);
         if(nombre===''){
             toast.error('Error! Debe introducir un nombre', TOAST_PROPERTIES)
             return
@@ -144,7 +144,7 @@ export const PlanAhorro =(props) =>{
     
     useEffect(()=>{
         obtenerCuentas()
-    },[])
+    })
 
     if(!goBack) {
         return(
